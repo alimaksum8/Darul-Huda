@@ -267,6 +267,7 @@ export default function App() {
   // Custom Data States with LocalStorage persistence
   const [currentThemeId, setCurrentThemeId] = useState(() => localStorage.getItem('themeId') || 'classic');
   const [schoolName, setSchoolName] = useState(() => localStorage.getItem('schoolName') || 'MTS DARUL HUDA');
+  const [welcomeText, setWelcomeText] = useState(() => localStorage.getItem('welcomeText') || 'Selamat Datang Di');
   const [academicYear, setAcademicYear] = useState(() => localStorage.getItem('academicYear') || 'Tahun Akademik 2026');
   const [footerText, setFooterText] = useState(() => localStorage.getItem('footerText') || 'Professionalism • Integrity • Excellence');
   const [asesorUtama, setAsesorUtama] = useState(() => localStorage.getItem('asesorUtama') || 'BPK. ABDUL LATIF ANWAR, S.Ag');
@@ -277,6 +278,7 @@ export default function App() {
   // Temporary states for form
   const [tempThemeId, setTempThemeId] = useState(currentThemeId);
   const [tempSchool, setTempSchool] = useState(schoolName);
+  const [tempWelcome, setTempWelcome] = useState(welcomeText);
   const [tempYear, setTempYear] = useState(academicYear);
   const [tempFooter, setTempFooter] = useState(footerText);
   const [tempAsesor1, setTempAsesor1] = useState(asesorUtama);
@@ -308,6 +310,7 @@ export default function App() {
     holdTimerRef.current = setTimeout(() => {
       setTempThemeId(currentThemeId);
       setTempSchool(schoolName);
+      setTempWelcome(welcomeText);
       setTempYear(academicYear);
       setTempFooter(footerText);
       setTempAsesor1(asesorUtama);
@@ -384,6 +387,7 @@ export default function App() {
   const saveSettings = () => {
     setCurrentThemeId(tempThemeId);
     setSchoolName(tempSchool);
+    setWelcomeText(tempWelcome);
     setAcademicYear(tempYear);
     setFooterText(tempFooter);
     setAsesorUtama(tempAsesor1);
@@ -392,6 +396,7 @@ export default function App() {
     setPhotoPendamping(tempPhoto2);
     localStorage.setItem('themeId', tempThemeId);
     localStorage.setItem('schoolName', tempSchool);
+    localStorage.setItem('welcomeText', tempWelcome);
     localStorage.setItem('academicYear', tempYear);
     localStorage.setItem('footerText', tempFooter);
     localStorage.setItem('asesorUtama', tempAsesor1);
@@ -468,6 +473,16 @@ export default function App() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
+                    <label className="block text-[10px] uppercase tracking-widest text-primary/60 mb-2 font-sans font-bold">Teks Sambutan</label>
+                    <input 
+                      type="text" 
+                      value={tempWelcome} 
+                      onChange={(e) => setTempWelcome(e.target.value)}
+                      className="w-full bg-bg/50 border border-primary/20 rounded-sm p-3 text-sm focus:outline-none focus:border-primary/50 transition-colors text-[#f0e6d3]"
+                      style={{ backgroundColor: `${currentTheme.bg}80`, borderColor: `${currentTheme.primary}30` }}
+                    />
+                  </div>
+                  <div>
                     <label className="block text-[10px] uppercase tracking-widest text-primary/60 mb-2 font-sans font-bold">Nama Madrasah</label>
                     <input 
                       type="text" 
@@ -477,16 +492,17 @@ export default function App() {
                       style={{ backgroundColor: `${currentTheme.bg}80`, borderColor: `${currentTheme.primary}30` }}
                     />
                   </div>
-                  <div>
-                    <label className="block text-[10px] uppercase tracking-widest text-primary/60 mb-2 font-sans font-bold">Tahun Akademik</label>
-                    <input 
-                      type="text" 
-                      value={tempYear} 
-                      onChange={(e) => setTempYear(e.target.value)}
-                      className="w-full bg-bg/50 border border-primary/20 rounded-sm p-3 text-sm focus:outline-none focus:border-primary/50 transition-colors text-[#f0e6d3]"
-                      style={{ backgroundColor: `${currentTheme.bg}80`, borderColor: `${currentTheme.primary}30` }}
-                    />
-                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] uppercase tracking-widest text-primary/60 mb-2 font-sans font-bold">Tahun Akademik</label>
+                  <input 
+                    type="text" 
+                    value={tempYear} 
+                    onChange={(e) => setTempYear(e.target.value)}
+                    className="w-full bg-bg/50 border border-primary/20 rounded-sm p-3 text-sm focus:outline-none focus:border-primary/50 transition-colors text-[#f0e6d3]"
+                    style={{ backgroundColor: `${currentTheme.bg}80`, borderColor: `${currentTheme.primary}30` }}
+                  />
                 </div>
 
                 <div>
@@ -596,7 +612,7 @@ export default function App() {
             className="text-xs uppercase tracking-[0.6em] text-primary/80 mb-6 font-sans font-semibold"
             style={{ color: `${currentTheme.primary}cc` }}
           >
-            Selamat Datang Di
+            {welcomeText}
           </motion.span>
           
           <motion.h1 
