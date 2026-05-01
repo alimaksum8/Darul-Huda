@@ -274,6 +274,8 @@ export default function App() {
   const [asesorPendamping, setAsesorPendamping] = useState(() => localStorage.getItem('asesorPendamping') || 'BPK. MOHAMMAD ROZIM, M.Pd.I');
   const [photoUtama, setPhotoUtama] = useState(() => localStorage.getItem('photoUtama') || '');
   const [photoPendamping, setPhotoPendamping] = useState(() => localStorage.getItem('photoPendamping') || '');
+  const [logoKiri, setLogoKiri] = useState(() => localStorage.getItem('logoKiri') || '');
+  const [logoKanan, setLogoKanan] = useState(() => localStorage.getItem('logoKanan') || '');
 
   // Temporary states for form
   const [tempThemeId, setTempThemeId] = useState(currentThemeId);
@@ -285,6 +287,8 @@ export default function App() {
   const [tempAsesor2, setTempAsesor2] = useState(asesorPendamping);
   const [tempPhoto1, setTempPhoto1] = useState(photoUtama);
   const [tempPhoto2, setTempPhoto2] = useState(photoPendamping);
+  const [tempLogoKiri, setTempLogoKiri] = useState(logoKiri);
+  const [tempLogoKanan, setTempLogoKanan] = useState(logoKanan);
 
   const currentTheme = THEMES.find(t => t.id === currentThemeId) || THEMES[0];
 
@@ -317,6 +321,8 @@ export default function App() {
       setTempAsesor2(asesorPendamping);
       setTempPhoto1(photoUtama);
       setTempPhoto2(photoPendamping);
+      setTempLogoKiri(logoKiri);
+      setTempLogoKanan(logoKanan);
       setIsSettingsOpen(true);
       endHold();
     }, duration);
@@ -394,6 +400,8 @@ export default function App() {
     setAsesorPendamping(tempAsesor2);
     setPhotoUtama(tempPhoto1);
     setPhotoPendamping(tempPhoto2);
+    setLogoKiri(tempLogoKiri);
+    setLogoKanan(tempLogoKanan);
     localStorage.setItem('themeId', tempThemeId);
     localStorage.setItem('schoolName', tempSchool);
     localStorage.setItem('welcomeText', tempWelcome);
@@ -403,6 +411,8 @@ export default function App() {
     localStorage.setItem('asesorPendamping', tempAsesor2);
     localStorage.setItem('photoUtama', tempPhoto1);
     localStorage.setItem('photoPendamping', tempPhoto2);
+    localStorage.setItem('logoKiri', tempLogoKiri);
+    localStorage.setItem('logoKanan', tempLogoKanan);
     setIsSettingsOpen(false);
     setSequenceKey(prev => prev + 1); // Reset animation to show changes
   };
@@ -468,6 +478,34 @@ export default function App() {
                         {tempThemeId === theme.id && <div className="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full shadow-[0_0_5px_var(--color-primary)]" />}
                       </button>
                     ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] uppercase tracking-widest text-primary/60 mb-2 font-sans font-bold">Logo (Kiri & Kanan)</label>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="flex flex-col items-center gap-2 bg-bg/30 p-4 rounded-sm border border-primary/10">
+                      <span className="text-[9px] text-primary/40 uppercase">Logo Madrasah (Kiri)</span>
+                      {tempLogoKiri && <img src={tempLogoKiri} className="h-16 w-auto object-contain mb-2" alt="Logo Kiri" />}
+                      <input 
+                        type="file" 
+                        accept="image/*"
+                        onChange={(e) => handlePhotoUpload(e, setTempLogoKiri)}
+                        className="text-[8px] text-primary/60 file:bg-primary/10 file:border-primary/20 file:text-primary file:rounded-sm file:px-2 file:py-1 cursor-pointer"
+                      />
+                      {tempLogoKiri && <button onClick={() => setTempLogoKiri('')} className="text-[8px] text-red-400 hover:underline">Hapus</button>}
+                    </div>
+                    <div className="flex flex-col items-center gap-2 bg-bg/30 p-4 rounded-sm border border-primary/10">
+                      <span className="text-[9px] text-primary/40 uppercase">Logo BAN (Kanan)</span>
+                      {tempLogoKanan && <img src={tempLogoKanan} className="h-16 w-auto object-contain mb-2" alt="Logo Kanan" />}
+                      <input 
+                        type="file" 
+                        accept="image/*"
+                        onChange={(e) => handlePhotoUpload(e, setTempLogoKanan)}
+                        className="text-[8px] text-primary/60 file:bg-primary/10 file:border-primary/20 file:text-primary file:rounded-sm file:px-2 file:py-1 cursor-pointer"
+                      />
+                      {tempLogoKanan && <button onClick={() => setTempLogoKanan('')} className="text-[8px] text-red-400 hover:underline">Hapus</button>}
+                    </div>
                   </div>
                 </div>
 
@@ -605,15 +643,44 @@ export default function App() {
         </div>
 
         <main className="relative z-20 text-center flex flex-col items-center max-w-4xl px-6" key={sequenceKey}>
-          <motion.span 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 0.8, y: 0 }}
-            transition={{ ...currentTheme.transition, delay: 0.2 }}
-            className="text-xs uppercase tracking-[0.6em] text-primary/80 mb-6 font-sans font-semibold"
-            style={{ color: `${currentTheme.primary}cc` }}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ ...currentTheme.transition, delay: 0.1 }}
+            className="flex items-center justify-center gap-8 mb-4 w-full"
           >
-            {welcomeText}
-          </motion.span>
+            {logoKiri && (
+              <motion.img 
+                src={logoKiri} 
+                className="h-16 md:h-24 w-auto object-contain"
+                alt="Logo Madrasah"
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+              />
+            )}
+            
+            <div className="flex flex-col items-center">
+              <motion.span 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 0.8, y: 0 }}
+                transition={{ ...currentTheme.transition, delay: 0.2 }}
+                className="text-xs uppercase tracking-[0.6em] text-primary/80 font-sans font-semibold"
+                style={{ color: `${currentTheme.primary}cc` }}
+              >
+                {welcomeText}
+              </motion.span>
+            </div>
+
+            {logoKanan && (
+              <motion.img 
+                src={logoKanan} 
+                className="h-16 md:h-24 w-auto object-contain"
+                alt="Logo BAN"
+                initial={{ x: 20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+              />
+            )}
+          </motion.div>
           
           <motion.h1 
             className="hero-gradient-text font-display font-black text-4xl md:text-6xl mb-8 tracking-tight leading-tight flex flex-wrap justify-center overflow-hidden"
